@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Monitoreo Inteligente</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <section class="screen login-screen" id="loginContainer">
+    <div class="login-card">
+      <div class="login-top">
+        <div class="system-badge">SYS</div>
+        <h1>Acceso al Sistema</h1>
+        <p>Ingrese sus credenciales para acceder al panel de monitoreo</p>
+      </div>
+
+      <form id="loginForm" class="login-form">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" placeholder="Ejemplo: admin" required>
+
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="Ingrese su contraseña" required>
+
+        <button type="submit">Iniciar sesión</button>
+        <p id="errorMessage" class="error"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section class="screen" id="mainContainer" style="display: none;"></section>
+    <div class="dashboard">
+
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Sistema Web de Monitoreo</p>
+          <h1>Panel de Sensores e Indicadores LED</h1>
+          <p class="subtitle">
+            Monitoreo de variables simuladas mediante sensores virtuales y LEDs indicadores
+          </p>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="status-pill">
+            <span class="dot-online"></span>
+            <span>Sistema activo</span>
+          </div>
+          <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
+        </div>
+      </header>
+
+      <section class="summary-grid">
+        <div class="summary-card">
+          <p class="summary-label">Estado general</p>
+          <h2 id="generalState">En supervisión</h2>
+          <span class="summary-note">Actualización en tiempo real</span>
+        </div>
+
+        <div class="summary-card">
+          <p class="summary-label">Sensor crítico</p>
+          <h2 id="criticalSensor">Ninguno</h2>
+          <span class="summary-note">Según condiciones actuales</span>
+        </div>
+
+        <div class="summary-card">
+          <p class="summary-label">Modo de operación</p>
+          <h2>Simulación local</h2>
+          <span class="summary-note">HTML, CSS y JavaScript</span>
+        </div>
+      </section>
+
+      <section class="monitor-panel">
+        <div class="panel-header">
+          <h2>Área de Monitoreo</h2>
+          <p>Modifique los sensores y observe el cambio de los LEDs virtuales</p>
+        </div>
+
+        <div class="sensor-grid">
+          <article class="sensor-card">
+            <div class="card-head">
+              <div>
+                <p class="sensor-tag">Sensor 01</p>
+                <h3>Humedad</h3>
+              </div>
+              <div class="led-shell">
+                <div class="led" id="humidityLed"></div>
+              </div>
+            </div>
+
+            <div class="sensor-value-box">
+              <span class="value-number" id="humidityValue">0</span>
+              <span class="value-unit">%</span>
+            </div>
+
+            <input type="range" id="humiditySlider" min="0" max="100" value="0">
+
+            <div class="range-scale">
+              <span>0%</span>
+              <span>100%</span>
+            </div>
+
+            <div class="sensor-info">
+              <p id="humidityStatus">Estado: Sin datos</p>
+              <p id="humidityDetail">LED apagado lógico de monitoreo</p>
+            </div>
+
+            <div class="rules-box">
+              <p><strong>Reglas:</strong></p>
+              <ul>
+                <li>0% a 8%: rojo</li>
+                <li>9% a 20%: amarillo</li>
+                <li>Mayor a 20%: verde</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="sensor-card">
+            <div class="card-head">
+              <div>
+                <p class="sensor-tag">Sensor 02</p>
+                <h3>Temperatura</h3>
+              </div>
+              <div class="led-shell">
+                <div class="led" id="tempLed"></div>
+              </div>
+            </div>
+
+            <div class="sensor-value-box">
+              <span class="value-number" id="tempValue">0</span>
+              <span class="value-unit">°C</span>
+            </div>
+
+            <input type="range" id="tempSlider" min="0" max="50" value="0">
+
+            <div class="range-scale">
+              <span>0°C</span>
+              <span>50°C</span>
+            </div>
+
+            <div class="sensor-info">
+              <p id="tempStatus">Estado: Sin datos</p>
+              <p id="tempDetail">LED apagado lógico de monitoreo</p>
+            </div>
+
+            <div class="rules-box">
+              <p><strong>Reglas:</strong></p>
+              <ul>
+                <li>Menor a 15°C: verde</li>
+                <li>15°C a 30°C: amarillo</li>
+                <li>Mayor a 30°C: rojo</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="footer-panel">
+        <div class="footer-card">
+          <h3>Descripción del sistema</h3>
+          <p>
+            Esta interfaz permite el acceso mediante usuario y contraseña. Después del inicio
+            de sesión, el usuario puede modificar los valores de sensores simulados y observar
+            cómo los LEDs virtuales representan visualmente el estado del sistema.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
