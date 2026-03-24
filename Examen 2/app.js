@@ -91,6 +91,3 @@ async function actualizarDatos() {
 
 setInterval(actualizarDatos, 1000);
 actualizarDatos();
-
-setInterval(actualizarDatos, 1000);
-actualizarDatos();
