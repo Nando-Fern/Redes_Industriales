@@ -1,96 +1,118 @@
-const temperatura = document.getElementById("temperatura");
-const humedad = document.getElementById("humedad");
-const rango = document.getElementById("rango");
-const velocidad = document.getElementById("velocidad");
-const pwm = document.getElementById("pwm");
-const estado = document.getElementById("estado");
-const motorEstado = document.getElementById("motorEstado");
-const statusFill = document.getElementById("statusFill");
-const ultimaActualizacion = document.getElementById("ultimaActualizacion");
-const ultimaActualizacionTexto = document.getElementById("ultimaActualizacionTexto");
-const estadoMini = document.getElementById("estadoMini");
-const statusChip = document.getElementById("statusChip");
-const rangePill = document.getElementById("rangePill");
-const pulsos = document.getElementById("pulsos");
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Center | Sistema embebido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
 
-function horaActual() {
-    const ahora = new Date();
-    return ahora.toLocaleTimeString();
-}
+<body class="dashboard-pro">
 
-function aplicarEstiloSegunRango(nombreRango) {
-    if (nombreRango === "Rango 1") {
-        statusFill.style.width = "33%";
-        statusFill.style.background = "linear-gradient(90deg, #60a5fa, #2563eb)";
-        motorEstado.textContent = "Motor en velocidad baja";
-        rangePill.textContent = "Rango 1";
-        statusChip.textContent = "Operación baja";
-    } else if (nombreRango === "Rango 2") {
-        statusFill.style.width = "66%";
-        statusFill.style.background = "linear-gradient(90deg, #fbbf24, #f59e0b)";
-        motorEstado.textContent = "Motor en velocidad media";
-        rangePill.textContent = "Rango 2";
-        statusChip.textContent = "Operación media";
-    } else if (nombreRango === "Rango 3") {
-        statusFill.style.width = "100%";
-        statusFill.style.background = "linear-gradient(90deg, #fb7185, #ef4444)";
-        motorEstado.textContent = "Motor en velocidad alta";
-        rangePill.textContent = "Rango 3";
-        statusChip.textContent = "Operación alta";
-    } else {
-        statusFill.style.width = "0%";
-        statusFill.style.background = "linear-gradient(90deg, #94a3b8, #64748b)";
-        motorEstado.textContent = "Sin lectura";
-        rangePill.textContent = "Sin lectura";
-        statusChip.textContent = "Esperando datos";
-    }
-}
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <span>SE</span>
+            <small>sistema embebido</small>
+        </div>
 
-async function actualizarDatos() {
-    try {
-        const response = await fetch("/get_data");
-        const data = await response.json();
+        <nav>
+            <a class="active">Dashboard</a>
+            <a>Monitoreo</a>
+            <a>Motor</a>
+            <a>Sensores</a>
+        </nav>
 
-        if (!data.ok) {
-            estado.textContent = "Error de comunicación";
-            estadoMini.textContent = "Sin respuesta";
-            motorEstado.textContent = "Sin datos";
-            rangePill.textContent = "Error";
-            statusChip.textContent = "Error";
-            statusFill.style.width = "0%";
-            statusFill.style.background = "linear-gradient(90deg, #94a3b8, #64748b)";
-            return;
-        }
+        <div class="sidebar-footer">
+            <span id="estadoMini">--</span>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        </div>
+    </aside>
 
-        temperatura.textContent = data.temperatura + " °C";
-        humedad.textContent = data.humedad + " %";
-        rango.textContent = data.rango;
-        velocidad.textContent = data.velocidad;
-        pwm.textContent = data.pwm;
-        estado.textContent = data.estado;
-        estadoMini.textContent = data.estado;
-        pulsos.textContent = data.pulsos;
+    <!-- CONTENIDO -->
+    <main class="main">
 
-        aplicarEstiloSegunRango(data.rango);
+        <!-- TOP -->
+        <header class="top">
+            <div>
+                <h1>Panel de control</h1>
+                <p>Sistema de monitoreo en tiempo real</p>
+            </div>
 
-        const hora = horaActual();
-        ultimaActualizacion.textContent = hora;
-        ultimaActualizacionTexto.textContent = hora;
+            <div class="top-right">
+                <div class="chip" id="statusChip">Cargando...</div>
+                <div class="time-box">
+                    <span>Última actualización</span>
+                    <strong id="ultimaActualizacionTexto">--</strong>
+                </div>
+            </div>
+        </header>
 
-    } catch (error) {
-        estado.textContent = "Error al actualizar";
-        estadoMini.textContent = "Sin conexión";
-        motorEstado.textContent = "Sin conexión";
-        rangePill.textContent = "Error";
-        statusChip.textContent = "Error";
-        statusFill.style.width = "0%";
-        statusFill.style.background = "linear-gradient(90deg, #94a3b8, #64748b)";
-        console.log("Error:", error);
-    }
-}
+        <!-- HERO -->
+        <section class="hero">
+            <div>
+                <h2 id="motorEstado">Sin lectura</h2>
+                <p>
+                    El sistema ajusta automáticamente la velocidad del motor
+                    en función de la temperatura detectada.
+                </p>
 
-setInterval(actualizarDatos, 1000);
-actualizarDatos();
+                <div class="badges">
+                    <span class="badge" id="rangePill">--</span>
+                    <span class="badge soft" id="estado">--</span>
+                </div>
+            </div>
 
-setInterval(actualizarDatos, 1000);
-actualizarDatos();
+            <div class="progress-box">
+                <span id="rango">--</span>
+                <div class="bar">
+                    <div class="fill" id="statusFill"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARDS -->
+        <section class="grid">
+
+            <div class="card">
+                <span>Temperatura</span>
+                <h3 id="temperatura">--</h3>
+            </div>
+
+            <div class="card">
+                <span>Humedad</span>
+                <h3 id="humedad">--</h3>
+            </div>
+
+            <div class="card">
+                <span>Velocidad</span>
+                <h3 id="velocidad">--</h3>
+            </div>
+
+            <div class="card">
+                <span>PWM</span>
+                <h3 id="pwm">--</h3>
+            </div>
+
+        </section>
+
+        <!-- EXTRA -->
+        <section class="extra">
+
+            <div class="box">
+                <span>Pulsos</span>
+                <h3 id="pulsos">--</h3>
+            </div>
+
+            <div class="box">
+                <span>Última lectura</span>
+                <h3 id="ultimaActualizacion">--</h3>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
