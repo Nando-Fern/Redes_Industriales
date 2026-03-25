@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso | Sistema embebido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-page">
+    <div class="login-mesh"></div>
+    <div class="login-orb orb-a"></div>
+    <div class="login-orb orb-b"></div>
+
+    <main class="login-wrapper">
+        <section class="login-layout">
+            <div class="login-copy">
+                <div class="brand-mark">SE</div>
+                <span class="eyebrow">panel de supervisión</span>
+                <h1>Sistema embebido de monitoreo y control</h1>
+                <p>
+                    Plataforma web para consultar temperatura, humedad, velocidad del motor,
+                    nivel PWM y estado operativo del sistema en tiempo real.
+                </p>
+
+                <div class="preview-panel">
+                    <div class="preview-card">
+                        <span>temperatura</span>
+                        <strong>28.6 °C</strong>
+                    </div>
+                    <div class="preview-card">
+                        <span>humedad</span>
+                        <strong>58 %</strong>
+                    </div>
+                    <div class="preview-card preview-wide">
+                        <span>estado operativo</span>
+                        <div class="mini-track">
+                            <div class="mini-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-card">
+                <div class="login-card-header">
+                    <span class="login-chip">acceso seguro</span>
+                    <h2>Iniciar sesión</h2>
+                    <p>Ingresa tus credenciales para entrar al panel principal.</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('login') }}" class="login-form">
+                    <label class="input-group">
+                        <span>Usuario</span>
+                        <input type="text" name="username" placeholder="Escribe tu usuario" required>
+                    </label>
+
+                    <label class="input-group">
+                        <span>Contraseña</span>
+                        <input type="password" name="password" placeholder="Escribe tu contraseña" required>
+                    </label>
+
+                    <button type="submit" class="primary-btn">Entrar al sistema</button>
+                </form>
+
+                {% if error %}
+                    <div class="alert-error">{{ error }}</div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>
